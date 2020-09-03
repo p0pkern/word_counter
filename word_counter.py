@@ -1,11 +1,7 @@
 def word_counter(filename):
     """This program will count the selected words appearing in a text"""
 
-    print("This program will count how many words are in a txt file\n" +
-          "If you would like get a count of all words enter \'-all-\'")
-    print("Currently this does not handle errors or run ons.")
-    print("For accuracy, input the minimum frequency(greater than 0) that\n "+
-          "you would like to count for.")
+    print("This program will count the frequency of words in a selected file")
 
     # User enters how many minimum words a word should have to be counted.
     while True:

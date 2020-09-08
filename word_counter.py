@@ -1,39 +1,43 @@
-def word_counter(filename):
-    """This program will count the selected words appearing in a text"""
+class WordCounter():
+    """This will count the words in a file"""
 
-    print("This program will count the frequency of words in a selected file")
+    def __init__(self, filename, minimum_count=1):
+        """
+        Initializes the name of the file to count and the minimum amount of
+        words the word needs to have to be counted. Defaults to 10
+        """
+        self.filename = filename
+        self.minimum_count = int(minimum_count)
+        self.word_dict = {}
 
-    # User enters how many minimum words a word should have to be counted.
-    while True:
-        frequency = input("How many minimum words should a word have to be counted? ")
+
+
+    def word_counter(self):
+        """
+        Counts and adds words to the dictionary
+        """
         try:
-            if int(frequency):
-                break
-        except ValueError:
-            print("That is not a number. Please try again")
+            f_obj = open(self.filename, 'r')
 
-    try:
-        f_obj = open(filename, 'r')
+            for line in f_obj:
+                line = line.strip()
+                line = line.lower()
+                words = line.split(" ")
 
-        word_dict = {}
+                for word in words:
+                    if word.isalpha():
+                        if word in self.word_dict:
+                            self.word_dict[word] = self.word_dict[word] + 1
+                        else:
+                            self.word_dict[word] = 1
 
-        for line in f_obj:
-            line = line.strip()
-            line = line.lower()
-            words = line.split(" ")
+        except FileNotFoundError:
+            print("File not found")
 
-            for word in words:
-                if word in word_dict:
-                    word_dict[word] = word_dict[word] + 1
-                else:
-                    word_dict[word] = 1
-
-        for key in list(word_dict.keys()):
-            if int(word_dict[key]) > int(frequency):
-                print(key + ": " + str(word_dict[key]))
-
-
-    except FileNotFoundError:
-        print("File not found")
-
-word_counter('alice.txt')
+    def adjust_values(self):
+        """
+        Prints the words and count to the screen
+        """
+        for key in list(self.word_dict.keys()):
+            if int(self.word_dict[key]) < int(self.minimum_count):
+                self.word_dict.pop(key)
